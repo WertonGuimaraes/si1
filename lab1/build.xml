@@ -1,0 +1,87 @@
+<project name="Si1" default="executa" basedir=".">
+	<description>
+		a simple build file
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src" location="src" />
+	<property name="build" location="build" />
+	<property name="dist" location="dist" />
+	
+	<path id="lib">
+		<fileset dir="lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+	<path id="bins">
+		<fileset dir="build">
+			<include name="*.class" />
+		</fileset>
+	</path>
+
+	<target name="init">
+	    <echo> Iniciando o projeto.</echo>
+		<!-- Create the time stamp -->
+		<tstamp />
+		<!-- Create the build directory structure used by compila -->
+		<mkdir dir="${build}" 
+		/>
+		<echo>     O projeto foi iniciado!</echo>
+	</target>
+
+	<target name="compila" depends="init" description="compila the source ">
+		<echo> Compilando o projeto.</echo>
+		<!-- compila the java code from ${src} into ${build} -->
+		<javac srcdir="${src}" destdir="${build}" > 
+		    <classpath refid="lib"/>  
+		</javac>
+		<echo> Compilado com sucesso!</echo>
+	</target>
+
+	<target name="dist" depends="compila" description="generate the distribution">
+		<!-- Create the distribution directory -->
+		<mkdir dir="${dist}/lib" />
+
+		<!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+		<jar jarfile="${dist}/lib/Si1-${DSTAMP}.jar" basedir="${build}" />
+	</target>
+
+	<target name="limpa" description="clear up">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+	</target>
+
+	<target name="all" depends="dist">
+		<echo> Gerando o .jar do projeto.</echo>
+		<jar jarfile="\${dist}/Lab01.jar" basedir="\${build}">
+			<!-- Tornando o jar executável -->
+			<manifest>
+				<attribute name="Main-Class" value="ufcg.si1.Lab01" />
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- target all - target responsável por iniciar o processo default e executar 
+		a aplicação. -->
+
+	<target name="executa" depends="all">
+		<echo> Executa o projeto.</echo>
+		<java jar="\${dist}/Lab01.jar" fork="true" />
+	</target>
+
+	<target name="clear">
+		<delete dir="\${build}" />
+		<delete dir="\${dist}" />
+	</target>
+	
+	<target name="testa" depends="compila">
+	    <echo> Testando o projeto.</echo>
+	    <java classname="org.junit.runner.JUnitCore" classpath="build">
+			<classpath refid="lib" />
+			<arg line="ufcg.si1.Lab01Test" />
+		</java>
+	</target>
+
+	
+</project>
