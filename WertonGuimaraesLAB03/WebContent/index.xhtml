@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>LAB03 - WERTON GUIMARAES</title>
+</h:head>
+
+<h:body>
+	<div>
+		<h:form>
+			<p:growl />
+			<p:panel id="panel" header="Tarefas Incompletas"
+				style="margin-bottom:10px;">
+				<p:layout style="min-width:400px;min-height:300px;" id="layout">
+					<p:layoutUnit position="west" resizable="false" size="120"
+						minSize="60" maxSize="200">
+
+						<p:commandButton value="Adicionar tarefa"
+							action="#{taskbean.addTarefa}" />
+						<p:commandButton value="Remover Tarefa"
+							action="#{taskbean.removeTarefa}" ajax="false" update="display" />
+						<p:commandButton value="Editar Tarefa"
+							action="#{taskbean.editarTarefa}" ajax="false" update="display" />
+
+						<p:commandButton value="Concluir Tarefa"
+							action="#{taskbean.mudaStatus}" ajax="false" update="display" />
+
+					</p:layoutUnit>
+					<p:layoutUnit position="center">
+						<h:form>
+							<p:dataTable var="tarefa" value="#{taskbean.controller.tarefas}"
+								emptyMessage="Nenhuma Tarefa Adicionada."
+								rowKey="#{tarefa.nome}" selection="#{taskbean.tarefa}"
+								sortBy="#{tarefa.dataConclusao}" selectionMode="single">
+
+								<p:column headerText="Tarefa">
+									<h:outputText value="#{tarefa.nome}" />
+								</p:column>
+								<p:column headerText="Descricao">
+									<h:outputText value="#{tarefa.descricao}" />
+								</p:column>
+								<p:column sortBy="#{tarefa.dataCriacao}"
+									headerText="Data de Criacao">
+									<h:outputText value="#{tarefa.dataCriacao}" />
+								</p:column>
+								<p:column sortBy="#{tarefa.dataConclusao}"
+									headerText="Data de Conclusao">
+									<h:outputText value="#{tarefa.dataConclusao}" />
+								</p:column>
+								<p:column headerText="Hora de Conclusao">
+									<h:outputText value="#{tarefa.horaConclusao}" />
+								</p:column>
+							</p:dataTable>
+						</h:form>
+						<br />
+					</p:layoutUnit>
+				</p:layout>
+			</p:panel>
+		</h:form>
+		<br />
+
+		<h:form>
+			<p:panel id="panel" header="Tarefas Concluidas"
+				style="margin-bottom:10px;">
+
+				<h:form>
+					<p:dataTable var="tarefa" sortBy="#{tarefa.dataConclusao}"
+						emptyMessage="Nenhuma tarefa foi concluída"
+						value="#{taskbean.controller.tarefasCompletas}"
+						rowKey="#{tarefa.nome}" selection="#{taskbean.tarefa}"
+						selectionMode="single">
+
+						<p:column headerText="Tarefa">
+							<h:outputText value="#{tarefa.nome}" />
+						</p:column>
+						<p:column headerText="Descricao">
+							<h:outputText value="#{tarefa.descricao}" />
+						</p:column>
+						<p:column sortBy="#{tarefa.dataCriacao}"
+							headerText="Data da Criacao">
+							<h:outputText value="#{tarefa.dataCriacao}" />
+						</p:column>
+						<p:column sortBy="#{tarefa.dataConclusao}"
+							headerText="Data da Conclusao">
+							<h:outputText value="#{tarefa.dataConclusao}" />
+						</p:column>
+						<p:column headerText="Hora da Conclusao">
+							<h:outputText value="#{tarefa.horaConclusao}" />
+						</p:column>
+					</p:dataTable>
+				</h:form>
+				<br />
+			</p:panel>
+		</h:form>
+
+	</div>
+</h:body>
+</html>

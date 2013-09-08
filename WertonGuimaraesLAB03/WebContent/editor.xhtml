@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<title>LAB03 - WERTON GUIMARAES</title>
+</h:head>
+
+<body>
+	<h:form id="form">
+		<p:growl />
+		<p:layout style="min-width:400px;min-height:415px;" id="layout">
+
+			<p:layoutUnit position="west" resizable="false" size="200" minSize="60" maxSize="200"></p:layoutUnit>
+			
+			<p:layoutUnit position="east" resizable="false" size="200" minSize="60" maxSize="200"></p:layoutUnit>
+			
+			<p:layoutUnit position="center">
+				<p:panel id="panel" header="Editar Tarefas"
+					style="margin-bottom:10px;">
+					<h:panelGrid columns="2" cellpadding="10">
+						<p:outputLabel value="Nome: " />
+						<p:inputText id="name" name="nome" value="#{taskbean.nome}" />
+						<p:outputLabel value="Descrição: " />
+						<p:inputTextarea value="#{taskbean.descricao}" rows="6" cols="20" />
+						<p:outputLabel value="Data de Conclusao:" />
+						<p:inputMask value="#{taskbean.dataConclusao}" mask="99/99/9999" />
+						<p:outputLabel value="Hora de conclusao:" />
+						<p:inputMask value="#{taskbean.horaConclusao}" mask="99:99" />
+					</h:panelGrid>
+					<br />
+					<p:commandButton value="Salvar" action="#{taskbean.salvarTarefa}"
+						ajax="false" update="display" />
+					<p:commandButton value="Voltar" action="#{taskbean.voltar}" />
+				</p:panel>
+			</p:layoutUnit>
+			
+		</p:layout>
+	</h:form>
+</body>
+</html>
